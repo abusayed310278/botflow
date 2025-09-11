@@ -172,6 +172,7 @@ class UpdateController extends Controller
         }
     }
 
+    //bulkfollows management
     public function bulkfollows()
     {
 
