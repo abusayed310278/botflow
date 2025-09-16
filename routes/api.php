@@ -17,7 +17,6 @@ use App\Http\Controllers\ReferralPayoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\AdditionalsUpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +79,7 @@ Route::post('/multi-refill-status', [ApiController::class, 'multiRefillStatus'])
 Route::post('/cancel', [ApiController::class, 'cancel']);
 
 
-//........Provider Routes................................................................
+//........Provider Routes..........................................................................
 
 // List all providers
 Route::get('/providers', [ProviderController::class, 'index'])->name('providers.index');
@@ -134,7 +133,7 @@ Route::prefix('countries')->group(function () {
     Route::delete('/{id}', [CountryController::class, 'destroy']);
 });
 
-//Country management
+//Category management
 Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::post('/', [CategoryController::class, 'store']);
@@ -224,6 +223,17 @@ Route::prefix('promotions')->group(function () {
     Route::get('/{id}', [PromotionController::class, 'show']);
     Route::put('/{id}', [PromotionController::class, 'update']);
     Route::delete('/{id}', [PromotionController::class, 'destroy']);
+});
+//................................coupon............................................................
+
+
+
+Route::prefix('coupons')->name('coupons.')->group(function () {
+    Route::get   ('/',        [CouponController::class, 'index'])->name('index');
+    Route::post  ('/',        [CouponController::class, 'store'])->name('store');
+    Route::get   ('/{id}',    [CouponController::class, 'show'])->whereNumber('id')->name('show');
+    Route::put   ('/{id}',    [CouponController::class, 'update'])->whereNumber('id')->name('update');
+    Route::delete('/{id}',    [CouponController::class, 'destroy'])->whereNumber('id')->name('destroy');
 });
 
 
