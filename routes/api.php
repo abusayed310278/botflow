@@ -188,6 +188,7 @@ Route::prefix('promotions')->group(function () {
     Route::get   ('/{id}', [PromotionController::class, 'show']);
     Route::put   ('/{id}', [PromotionController::class, 'update']);
     Route::delete('/{id}', [PromotionController::class, 'destroy']);
+});
 //................................coupon............................................................
 
 /* ---- Coupons CRUD ---- */
