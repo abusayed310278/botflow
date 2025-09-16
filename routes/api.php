@@ -134,7 +134,7 @@ Route::prefix('countries')->group(function () {
     Route::delete('/{id}', [CountryController::class, 'destroy']);
 });
 
-//Country management
+//Category management
 Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::post('/', [CategoryController::class, 'store']);
@@ -224,6 +224,7 @@ Route::prefix('promotions')->group(function () {
     Route::get('/{id}', [PromotionController::class, 'show']);
     Route::put('/{id}', [PromotionController::class, 'update']);
     Route::delete('/{id}', [PromotionController::class, 'destroy']);
+});
 //................................coupon............................................................
 
 
@@ -238,6 +239,14 @@ Route::prefix('coupons')->name('coupons.')->group(function () {
 
 
 
+//Additional updates management
+Route::prefix('additional-updates')->group(function () {
+    Route::get('/', [AdditionalsUpdateController::class, 'index']);
+    Route::post('/', [AdditionalsUpdateController::class, 'store']);
+    Route::get('/{id}', [AdditionalsUpdateController::class, 'show']);
+    Route::put('/{id}', [AdditionalsUpdateController::class, 'update']);
+    Route::delete('/{id}', [AdditionalsUpdateController::class, 'destroy']);
+});
 //.........................Report......................................................
 
 Route::get('/reports/orders-matrix', [ReportMatrixController::class, 'ordersMatrix'])

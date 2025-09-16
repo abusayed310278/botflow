@@ -61,6 +61,7 @@ class ServiceController extends Controller
                 return array_merge($service, [
                     'created_at' => $now,
                     'updated_at' => $now,
+                    'update_price' => $service['rate'] + $service['max'],
                 ]);
             }, $validated['services']);
 
@@ -127,6 +128,8 @@ class ServiceController extends Controller
                 'category'     => 'nullable|string|max:255',
             ]);
 
+            $validated['update_price'] = $validated['rate'] + $validated['max'];
+            
             $service = Service::findOrFail($id);
             $service->update($validated);
 

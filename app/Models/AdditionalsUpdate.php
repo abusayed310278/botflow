@@ -19,6 +19,6 @@ class AdditionalsUpdate extends Model
     // Relation: update belongs to a service
     public function service()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class, 'service_id', 'service');
     }
 }

@@ -29,10 +29,10 @@ class AdditionalsUpdateController extends Controller
     {
         try {
             $validated = $request->validate([
-                'service_id'  => 'required|exists:services,id',
-                'status'      => 'required|in:pending,active,inactive',
+                'service_id'  => 'required|exists:services,service',
+                'status'      => 'nullable|string',
                 'description' => 'nullable|string',
-                'date'        => 'required|date',
+                'date'        => 'nullable|date',
             ]);
 
             $update = AdditionalsUpdate::create($validated);
@@ -69,9 +69,9 @@ class AdditionalsUpdateController extends Controller
     {
         try {
             $update = AdditionalsUpdate::findOrFail($id);
-
+            // dd($request->all());
             $validated = $request->validate([
-                'status'      => 'sometimes|in:pending,active,inactive',
+                'status'      => 'sometimes|string',
                 'description' => 'nullable|string',
                 'date'        => 'sometimes|date',
             ]);
