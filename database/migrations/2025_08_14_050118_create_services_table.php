@@ -9,8 +9,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('service_id'); // From SMM API
+            $table->id();// From SMM API
             $table->string('name');
             $table->string('type')->nullable();
             $table->decimal('rate', 10, 4)->nullable(); // Original price from SMM API

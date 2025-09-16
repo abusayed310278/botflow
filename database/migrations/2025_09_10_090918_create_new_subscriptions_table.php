@@ -25,7 +25,7 @@ return new class extends Migration {
 
             // Foreign keys
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreign('service_api')->references('id')->on('providers')->cascadeOnUpdate()->restrictOnDelete();
+            
         });
     }
 

@@ -11,11 +11,11 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-        'year','month',
-        'category_id','service_id','payment_id',
-        'orders_count','quantity_sum',
-        'gross_amount','cost_amount','refund_amount','fee_amount',
-        'net_amount','profit_amount',
+        'year', 'month',
+        'category_id', 'service_id', 'payment_id',   // <-- changed
+        'orders_count', 'quantity_sum',
+        'gross_amount', 'cost_amount', 'refund_amount', 'fee_amount',
+        'net_amount', 'profit_amount',
     ];
 
     protected $casts = [
@@ -31,7 +31,7 @@ class Report extends Model
         'profit_amount'  => 'decimal:2',
     ];
 
-    public function scopeYear(Builder $q, int $year): Builder  { return $q->where('year', $year); }
+    public function scopeYear(Builder $q, int $year): Builder { return $q->where('year', $year); }
     public function scopeMonth(Builder $q, ?int $month): Builder
     {
         return $month === null ? $q->whereNull('month') : $q->where('month', $month);
