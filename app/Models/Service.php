@@ -20,6 +20,7 @@ class Service extends Model
         'refill',
         'cancel',
         'category',
+        'update_price',
     ];
 
     public function updates()
@@ -29,5 +30,9 @@ class Service extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+    public function additionalsUpdates()
+    {
+        return $this->hasMany(AdditionalsUpdate::class, 'service_id', 'service');
     }
 }

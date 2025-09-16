@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('additionals_updates', function (Blueprint $table) {
             $table->id();
+            $table->string('service_id');
+            $table->string('status')->nullable();
+            $table->text('description')->nullable();
+            $table->date('date');
             $table->timestamps();
+
+            $table->foreign('service_id')->references('service')->on('services')->onDelete('cascade');
         });
     }
 

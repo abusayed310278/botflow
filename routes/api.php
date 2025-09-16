@@ -17,6 +17,7 @@ use App\Http\Controllers\ReferralPayoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\AdditionalsUpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -223,4 +224,15 @@ Route::prefix('promotions')->group(function () {
     Route::get('/{id}', [PromotionController::class, 'show']);
     Route::put('/{id}', [PromotionController::class, 'update']);
     Route::delete('/{id}', [PromotionController::class, 'destroy']);
+});
+
+
+
+//Additional updates management
+Route::prefix('additional-updates')->group(function () {
+    Route::get('/', [AdditionalsUpdateController::class, 'index']);
+    Route::post('/', [AdditionalsUpdateController::class, 'store']);
+    Route::get('/{id}', [AdditionalsUpdateController::class, 'show']);
+    Route::put('/{id}', [AdditionalsUpdateController::class, 'update']);
+    Route::delete('/{id}', [AdditionalsUpdateController::class, 'destroy']);
 });
