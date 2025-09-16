@@ -16,7 +16,6 @@ use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\ReferralPayoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TicketController;
-use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReportMatrixController;
 /*
@@ -134,7 +133,7 @@ Route::prefix('countries')->group(function () {
     Route::delete('/{id}', [CountryController::class, 'destroy']);
 });
 
-//Category management
+//Country management
 Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::post('/', [CategoryController::class, 'store']);
@@ -216,15 +215,6 @@ Route::prefix('tickets')->name('tickets.')->group(function () {
     Route::get('closed',   [TicketController::class, 'byStatus'])->defaults('status', 'closed')->name('closed');    
 });
 
-
-//Promotions management
-Route::prefix('promotions')->group(function () {
-    Route::get('/', [PromotionController::class, 'index']);
-    Route::post('/', [PromotionController::class, 'store']);
-    Route::get('/{id}', [PromotionController::class, 'show']);
-    Route::put('/{id}', [PromotionController::class, 'update']);
-    Route::delete('/{id}', [PromotionController::class, 'destroy']);
-});
 //................................coupon............................................................
 
 
@@ -239,14 +229,6 @@ Route::prefix('coupons')->name('coupons.')->group(function () {
 
 
 
-//Additional updates management
-Route::prefix('additional-updates')->group(function () {
-    Route::get('/', [AdditionalsUpdateController::class, 'index']);
-    Route::post('/', [AdditionalsUpdateController::class, 'store']);
-    Route::get('/{id}', [AdditionalsUpdateController::class, 'show']);
-    Route::put('/{id}', [AdditionalsUpdateController::class, 'update']);
-    Route::delete('/{id}', [AdditionalsUpdateController::class, 'destroy']);
-});
 //.........................Report......................................................
 
 Route::get('/reports/orders-matrix', [ReportMatrixController::class, 'ordersMatrix'])
@@ -257,4 +239,3 @@ Route::get('/reports/orders-counts', [ReportMatrixController::class, 'ordersCoun
 
 Route::get('/reports/payments-matrix', [ReportMatrixController::class, 'paymentsMatrix'])
     ->name('reports.payments.matrix');
-
