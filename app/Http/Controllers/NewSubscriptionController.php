@@ -37,7 +37,6 @@ class NewSubscriptionController extends Controller
                 'category_id'     => ['required','exists:categories,id'],
                 'servicetype'     => ['required','in:1,2'],
                 'service_package' => ['nullable','in:1,2'],
-                'service_api'     => ['required','exists:providers,id'],
                 'service_price'   => ['nullable','string'],
                 'service_min'     => ['nullable','numeric'],
                 'service_max'     => ['nullable','numeric'],

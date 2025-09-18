@@ -13,4 +13,9 @@ class Country extends Model
         'country_name',
         'icon',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -35,33 +36,53 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'name'         => 'required|string|max:255',
-                'type'         => 'nullable|string|max:255',
-                'rate'         => 'required|numeric|min:0',
-                'custom_rate'  => 'nullable|numeric|min:0',
-                'min'          => 'required|integer|min:1',
-                'max'          => 'required|integer|min:1',
-                'dripfeed'     => 'boolean',
-                'refill'       => 'boolean',
-                'cancel'       => 'boolean',
-                'category'     => 'nullable|string|max:255',
-            ]);
+        // ✅ Validate multiple array items
+        $validated = $request->validate([
+            'services'               => 'required|array|min:1',
+            'services.*.service'     => 'nullable|string|max:255',
+            'services.*.name'        => 'required|string|max:255',
+            'services.*.type'        => 'nullable|string|max:255',
+            'services.*.rate'        => 'required|numeric|min:0',
+            'services.*.custom_rate' => 'nullable|numeric|min:0',
+            'services.*.min'         => 'required|integer|min:1',
+            'services.*.max'         => 'required|integer|min:1',
+            'services.*.dripfeed'    => 'boolean',
+            'services.*.refill'      => 'boolean',
+            'services.*.cancel'      => 'boolean',
+            'services.*.category'    => 'nullable|string|max:255',
+        ]);
 
-            $service = Service::create($validated);
+        try {
+            DB::beginTransaction();
+
+            // ✅ Add timestamps if your model uses them
+            $now = now();
+            $servicesToInsert = array_map(function ($service) use ($now) {
+                return array_merge($service, [
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                    'update_price' => $service['rate'] + $service['max'],
+                ]);
+            }, $validated['services']);
+
+            // ✅ Bulk insert (one query instead of 10 separate queries)
+            Service::insert($servicesToInsert);
+
+            DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Service created successfully',
-                'data' => $service
+                'message' => count($servicesToInsert) . ' services saved successfully',
+                'data'    => $servicesToInsert,
             ], 201);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            DB::rollBack();
+
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to create service',
-                'error' => $e->getMessage()
+                'message' => 'Failed to save services',
+                'error'   => $e->getMessage(),
             ], 500);
         }
     }
@@ -107,6 +128,8 @@ class ServiceController extends Controller
                 'category'     => 'nullable|string|max:255',
             ]);
 
+            $validated['update_price'] = $validated['rate'] + $validated['max'];
+            
             $service = Service::findOrFail($id);
             $service->update($validated);
 

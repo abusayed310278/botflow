@@ -28,4 +28,10 @@ class NewSubscription extends Model
     {
         return $this->belongsTo(Provider::class, 'service_api');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }

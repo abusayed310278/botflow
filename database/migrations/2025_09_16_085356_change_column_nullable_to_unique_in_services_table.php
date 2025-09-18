@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('services', function (Blueprint $table) {
+             $table->string('service')->nullable(false)->change();
+             $table->unique('service');
         });
     }
 
@@ -22,7 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
-        Schema::dropIfExists('categories');
+        Schema::table('services', function (Blueprint $table) {
+            $table->dropUnique(['service']);
+            $table->string('service')->nullable()->change();
+        });
     }
 };

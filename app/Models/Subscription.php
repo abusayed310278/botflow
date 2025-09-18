@@ -9,3 +9,4 @@ class Subscription extends Model
 {
     use HasFactory;
 }
+
