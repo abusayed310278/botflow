@@ -12,24 +12,42 @@ class ServiceController extends Controller
     /**
      * Display a listing of services.
      */
-    public function index()
-    {
-        try {
-            $services = Service::all();
+public function index(Request $request)
+{
+    try {
+        $query = Service::query();
 
-            return response()->json([
-                'success' => true,
-                'data' => $services
-            ], 200);
-
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch services',
-                'error' => $e->getMessage()
-            ], 500);
+        // Check if "category" parameter is present
+        if ($request->has('category')) {
+            $category = $request->get('category');
+            \Log::info('Category Filter: ' . $category); // Log category value for debugging
+            
+            // Perform a case-insensitive search using LIKE
+            $query->whereRaw('LOWER(TRIM(category)) LIKE ?', ['%' . strtolower(trim($category)) . '%']);
         }
+
+        $services = $query->get();
+
+        // Log the actual SQL query
+        \Log::info('Executed Query: ' . $query->toSql());
+
+        return response()->json([
+            'success' => true,
+            'data' => $services
+        ], 200);
+
+    } catch (Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch services',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
+
+
+
 
     /**
      * Store a newly created service.
@@ -61,7 +79,7 @@ class ServiceController extends Controller
                 return array_merge($service, [
                     'created_at' => $now,
                     'updated_at' => $now,
-                    'update_price' => $service['rate'] + $service['max'],
+                    //'update_price' => $service['rate'] + $service['max'],
                 ]);
             }, $validated['services']);
 
@@ -86,6 +104,9 @@ class ServiceController extends Controller
             ], 500);
         }
     }
+
+
+    
 
     /**
      * Display the specified service.
@@ -171,3 +192,6 @@ class ServiceController extends Controller
         }
     }
 }
+
+
+//ok
